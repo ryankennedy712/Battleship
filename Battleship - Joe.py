@@ -10,13 +10,13 @@ def hitmarker(Xcord,Ycord):
 def userinput(opt=""):
     if opt == "ship":
         PlayerGuess = input("Where should we place the ship? (x,y): ")
-        x = str(find(PlayerGuess[x], beg=0,end ="." )) - 1
-        y = str(find(PlayerGuess[y], beg=".", end = "")) -1
+        x = int(PlayerGuess[0:PlayerGuess.find(".")]) - 1
+        y = int(PlayerGuess[PlayerGuess.find(".") + 1:len(PlayerGuess)]) - 1
         BoatMarker(x,y)
     if opt == "strike":
         PlayerGuess = input("Missle strike to space? (x,y): ")
-        x = str(find(PlayerGuess[x], beg=0,end ="." )) - 1
-        y = str(find(PlayerGuess[y], beg=".", end = "")) -1
+        x = int(PlayerGuess[0:PlayerGuess.find(".")]) - 1
+        y = int(PlayerGuess[PlayerGuess.find(".") + 1:len(PlayerGuess)]) - 1
         hitmarker(x,y)
 
 def BoardGUI(opt="Generate"):#game board
