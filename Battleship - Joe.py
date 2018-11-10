@@ -13,16 +13,25 @@ def hitmarker(Xcord,Ycord):
 def userinput(opt=""):
     if opt == "ship":
         PlayerGuess = input("Where should we place the ship? (x,y): ")
-        x = int(PlayerGuess[0:PlayerGuess.find(".")]) - 1
-        y = int(PlayerGuess[PlayerGuess.find(".") + 1:len(PlayerGuess)]) - 1
-        BoatMarker(x,y)
+        if PlayerGuess.find(".") and PlayerGuess[0:PlayerGuess.find(".")].isnumeric() and int(PlayerGuess[0:PlayerGuess.find(".")]) < 11 and int(PlayerGuess[PlayerGuess.find(".") + 1:len(PlayerGuess)]) < 11 and PlayerGuess[PlayerGuess.find(".") + 1:len(PlayerGuess)].isnumeric() and int(PlayerGuess[0:PlayerGuess.find(".")]) > 0 and int(PlayerGuess[PlayerGuess.find(".") + 1:len(PlayerGuess)]) > 0:
+            x = int(PlayerGuess[0:PlayerGuess.find(".")]) - 1
+            y = int(PlayerGuess[PlayerGuess.find(".") + 1:len(PlayerGuess)]) - 1
+            BoatMarker(x,y)
+            return True
+        else:
+            print("Please enter in correct format")
+            return False
     if opt == "strike":
         PlayerGuess = input("Missle strike to space? (x,y): ")
-        x = int(PlayerGuess[0:PlayerGuess.find(".")]) - 1
-        y = int(PlayerGuess[PlayerGuess.find(".") + 1:len(PlayerGuess)]) - 1
-        HitChecker(x,y)
-        hitmarker(x,y)
-
+        if PlayerGuess.find(".") and PlayerGuess[0:PlayerGuess.find(".")].isnumeric() and int(PlayerGuess[0:PlayerGuess.find(".")]) < 11 and int(PlayerGuess[PlayerGuess.find(".") + 1:len(PlayerGuess)]) < 11 and PlayerGuess[PlayerGuess.find(".") + 1:len(PlayerGuess)].isnumeric() and int(PlayerGuess[0:PlayerGuess.find(".")]) > 0 and int(PlayerGuess[PlayerGuess.find(".") + 1:len(PlayerGuess)]) > 0:
+            x = int(PlayerGuess[0:PlayerGuess.find(".")]) - 1
+            y = int(PlayerGuess[PlayerGuess.find(".") + 1:len(PlayerGuess)]) - 1
+            HitChecker(x,y)
+            hitmarker(x,y)
+            return True
+        else:
+            print("Please enter in correct format")
+            return False
 
 
 def BoardGUI(opt="Generate"):#game board
@@ -49,11 +58,21 @@ def HitChecker(Xcord,Ycord):
 
 
 BoardGUI() #generate
-for i in range(5):
-    userinput("ship")
-    BoardGUI("Update")
+count = 1
+while count < 6:
+    numcheck = userinput("ship")
+    if numcheck == False:
+        count -= 1
+    else:
+        BoardGUI("Update")
+    count += 1
 print("DONE PLACING SHIPS!")
-for i in range(5):
-    userinput("strike")
-    BoardGUI("Update")
+count = 1
+while count < 6:
+    numcheck = userinput("strike")
+    if numcheck == False:
+        count -= 1
+    else:
+        BoardGUI("Update")
+    count += 1
 print("DONE STRIKING!")
