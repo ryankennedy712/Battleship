@@ -53,26 +53,40 @@ def HitChecker(Xcord,Ycord):
         print("You hit a ship!")
     else:
         print("You missed!")
+def userplacement(var):
+        strikeorplace = ""
+        if var == "2":
+            strikeorplace = "ship"
+        if var == "3":
+            strikeorplace = "strike"
+        count = 1
+        while count < 6:
+            numcheck = userinput(strikeorplace)
+            if numcheck == False:
+                count -= 1
+            else:
+                BoardGUI("Update")
+            count += 1
+        Menu()
 
 
+def Menu():
+    print("""
+BattleShip, Select An Option:
 
+    View Board  (1)
+    Place Boats (2)
+    Start Game  (3)
+    """)
+    var = input()
+    if var == "1":
+        BoardGUI("Update")
+    if var == "2":
+        userplacement(var)
+        print("DONE PLACING SHIPS!")
+    if var == "3":
+        userplacement(var)
+        print("DONE STRIKING!")
 
 BoardGUI() #generate
-count = 1
-while count < 6:
-    numcheck = userinput("ship")
-    if numcheck == False:
-        count -= 1
-    else:
-        BoardGUI("Update")
-    count += 1
-print("DONE PLACING SHIPS!")
-count = 1
-while count < 6:
-    numcheck = userinput("strike")
-    if numcheck == False:
-        count -= 1
-    else:
-        BoardGUI("Update")
-    count += 1
-print("DONE STRIKING!")
+Menu()
