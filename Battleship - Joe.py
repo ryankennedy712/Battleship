@@ -1,6 +1,9 @@
 from random import randint
 
 l = [] #empty list to append later
+
+Boatlist = {"Destroyer":["U","U"],"Submarine":["U","U","U"],"Cruiser":["U","U","U"],"Battleship":["U","U","U","U"],"AirCraftCarrier":["U","U","U","U","U"]}
+
 def BoatMarker(Xcord,Ycord):
     l[Ycord][Xcord] = "U"
 
@@ -17,6 +20,7 @@ def userinput(opt=""):
         PlayerGuess = input("Missle strike to space? (x,y): ")
         x = int(PlayerGuess[0:PlayerGuess.find(".")]) - 1
         y = int(PlayerGuess[PlayerGuess.find(".") + 1:len(PlayerGuess)]) - 1
+        HitChecker(x,y)
         hitmarker(x,y)
 
 def BoardGUI(opt="Generate"):#game board
@@ -33,7 +37,11 @@ def BoardGUI(opt="Generate"):#game board
         print(board)
         return board
 
-
+def HitChecker(Xcord,Ycord):
+    if l[Ycord][Xcord] == "U":
+        print("You hit a ship!")
+    else:
+        print("You missed!")
 
 
 
