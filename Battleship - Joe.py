@@ -19,6 +19,8 @@ def userinput(opt=""):
         y = int(PlayerGuess[PlayerGuess.find(".") + 1:len(PlayerGuess)]) - 1
         hitmarker(x,y)
 
+
+
 def BoardGUI(opt="Generate"):#game board
     if opt == "Generate":
         for x in range(10):
