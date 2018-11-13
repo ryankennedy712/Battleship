@@ -1,0 +1,12 @@
+1 board exists -we need 4 boards (two lists per player)
+
+Roational placement of ships, We need vertically.
+Error checking for ship placement (within the board).
+Error checking to make sure a diffent ship is placed each time and that all ships have been placed.
+17 U total after ships placed
+
+To check if a player has won.
+
+Add second player (additionally A.I or second human palyer)
+
+
