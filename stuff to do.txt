@@ -7,6 +7,10 @@ Error checking to make sure a diffent ship is placed each time and that all ship
 
 To check if a player has won.
 
-Add second player (additionally A.I or second human palyer)
+Add second player (additionally A.I or second human player)
 
+Implement classes. (Ryan)
 
+Check to see if a ship has been sunk.
+
+If the player or A.I hits let them move again.
