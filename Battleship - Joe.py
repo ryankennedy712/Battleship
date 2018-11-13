@@ -1,39 +1,41 @@
 from random import randint
 
-l = [] #empty list to append later
+#empty list to append later
+l = []
 
-Boatlist = {"Destroyer":["U","U"],"Submarine":["U","U","U"],"Cruiser":["U","U","U"],"Battleship":["U","U","U","U"],"AirCraftCarrier":["U","U","U","U","U"]}
+#Dictionary of ship keys to be called in shipplacement later
+shiplist = {"Destroyer":["U","U"],"Submarine":["U","U","U"],"Cruiser":["U","U","U"],"Battleship":["U","U","U","U"],"AirCraftCarrier":["U","U","U","U","U"]}
 
-def BoatMarker(Xcord,Ycord):
+#The function that records where ships are placed, will be updated later
+def shipMarker(Xcord,Ycord):
     l[Ycord][Xcord] = "U"
 
+#The Function that records where strike have been placed
 def hitmarker(Xcord,Ycord):
-    l[Ycord][Xcord] = "x"
+    if l[Ycord][Xcord] == "U":
+        print("You hit a ship!")
+        l[Ycord][Xcord] = "x"
+    else:
+        print("You missed!")
+        l[Ycord][Xcord] = "O"
 
-def userinput(opt=""):
-    if opt == "ship":
-        PlayerGuess = input("Where should we place the ship? (x,y): ")
-        if PlayerGuess.find(".") and PlayerGuess[0:PlayerGuess.find(".")].isnumeric() and int(PlayerGuess[0:PlayerGuess.find(".")]) < 11 and int(PlayerGuess[PlayerGuess.find(".") + 1:len(PlayerGuess)]) < 11 and PlayerGuess[PlayerGuess.find(".") + 1:len(PlayerGuess)].isnumeric() and int(PlayerGuess[0:PlayerGuess.find(".")]) > 0 and int(PlayerGuess[PlayerGuess.find(".") + 1:len(PlayerGuess)]) > 0:
-            x = int(PlayerGuess[0:PlayerGuess.find(".")]) - 1
-            y = int(PlayerGuess[PlayerGuess.find(".") + 1:len(PlayerGuess)]) - 1
-            BoatMarker(x,y)
+#The function that takes player input for striking and ship placement, verifies the input and calls the appropriate fucntion to make markers
+def userinput(PlayerGuess,i,opt):
+    if PlayerGuess.find(".") and PlayerGuess[0:PlayerGuess.find(".")].isnumeric() and int(PlayerGuess[0:PlayerGuess.find(".")]) < 11 and int(PlayerGuess[PlayerGuess.find(".") + 1:len(PlayerGuess)]) < 11 and PlayerGuess[PlayerGuess.find(".") + 1:len(PlayerGuess)].isnumeric() and int(PlayerGuess[0:PlayerGuess.find(".")]) > 0 and int(PlayerGuess[PlayerGuess.find(".") + 1:len(PlayerGuess)]) > 0:
+        x = int(PlayerGuess[0:PlayerGuess.find(".")]) - 1
+        y = int(PlayerGuess[PlayerGuess.find(".") + 1:len(PlayerGuess)]) - 1
+        x = x + i
+        if opt == "ship":
+            shipMarker(x,y)
             return True
-        else:
-            print("Please enter in correct format")
-            return False
-    if opt == "strike":
-        PlayerGuess = input("Missle strike to space? (x,y): ")
-        if PlayerGuess.find(".") and PlayerGuess[0:PlayerGuess.find(".")].isnumeric() and int(PlayerGuess[0:PlayerGuess.find(".")]) < 11 and int(PlayerGuess[PlayerGuess.find(".") + 1:len(PlayerGuess)]) < 11 and PlayerGuess[PlayerGuess.find(".") + 1:len(PlayerGuess)].isnumeric() and int(PlayerGuess[0:PlayerGuess.find(".")]) > 0 and int(PlayerGuess[PlayerGuess.find(".") + 1:len(PlayerGuess)]) > 0:
-            x = int(PlayerGuess[0:PlayerGuess.find(".")]) - 1
-            y = int(PlayerGuess[PlayerGuess.find(".") + 1:len(PlayerGuess)]) - 1
-            HitChecker(x,y)
+        elif opt == "strike":
             hitmarker(x,y)
             return True
-        else:
-            print("Please enter in correct format")
-            return False
+    else:
+        print("Please enter in correct format")
+        return False
 
-
+#Function that Generates the intial board if the optional argument is generate and updates the board in place if it is Update
 def BoardGUI(opt="Generate"):#game board
     if opt == "Generate":
         for x in range(10):
@@ -48,45 +50,76 @@ def BoardGUI(opt="Generate"):#game board
         print(board)
         return board
 
-def HitChecker(Xcord,Ycord):
-    if l[Ycord][Xcord] == "U":
-        print("You hit a ship!")
-    else:
-        print("You missed!")
-def userplacement(var):
-        strikeorplace = ""
-        if var == "2":
-            strikeorplace = "ship"
-        if var == "3":
-            strikeorplace = "strike"
-        count = 1
-        while count < 6:
-            numcheck = userinput(strikeorplace)
-            if numcheck == False:
-                count -= 1
-            else:
-                BoardGUI("Update")
-            count += 1
-        Menu()
-
+#Function that checks if the striking player hit a ship.
 
 def Menu():
     print("""
 BattleShip, Select An Option:
-
     View Board  (1)
-    Place Boats (2)
+    Place ships (2)
     Start Game  (3)
     """)
     var = input()
     if var == "1":
         BoardGUI("Update")
+        Menu()
     if var == "2":
-        userplacement(var)
+        shipMenu()
         print("DONE PLACING SHIPS!")
     if var == "3":
-        userplacement(var)
+        strikeMenu()
         print("DONE STRIKING!")
 
+def shipplacement(ship,placement):
+    i = 0
+    while i < len(shiplist[ship]):
+        userinput(placement,i,"ship")
+        i += 1
+    BoardGUI("Update")
+
+
+def strikeMenu():
+    i = 0
+    print("""
+What would you like todo:
+    View Board   (1)
+    Strike       (2)
+""")
+    option = input()
+    if option == "1":
+        BoardGUI("Update")
+        strikeMenu()
+    if option == "2":
+        PlayerGuess = input("Where would you like to strike: ")
+        userinput(PlayerGuess,i,"strike")
+        strikeMenu()
+
+def shipMenu():
+    print("""
+Select a ship to place:
+    Destroyer         (1)
+    Submarine         (2)
+    Cruiser           (3)
+    Battleship        (4)
+    AirCraftCarrier   (5)
+""")
+    options = input()
+    BoardGUI("Update")
+    placement = input("Where would you like to place the ship? From right to left")
+    if options == "1":
+        shipplacement("Destroyer",placement)
+        Menu()
+    if options == "2":
+        shipplacement("Submarine",placement)
+        Menu()
+    if options == "3":
+        shipplacement("Cruiser",placement)
+        Menu()
+    if options == "4":
+        shipplacement("Battleship",placement)
+        Menu()
+    if options == "5":
+        shipplacement("AirCraftCarrier",placement)
+        Menu()
 BoardGUI() #generate
 Menu()
