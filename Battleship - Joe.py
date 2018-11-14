@@ -7,11 +7,13 @@ l = []
 shiplist = {"Destroyer":["U","U"],"Submarine":["U","U","U"],"Cruiser":["U","U","U"],"Battleship":["U","U","U","U"],"AirCraftCarrier":["U","U","U","U","U"]}
 
 #The function that records where ships are placed, will be updated later
-def shipMarker(Xcord,Ycord):
-    l[Ycord][Xcord] = "U"
-
+def shipMarker(Xcord,Ycord,way):
+    if way == "1":
+        l[Ycord][Xcord] = "U"
+    else:
+        l[Xcord][Ycord] = "U"
 #The Function that records where strike have been placed
-def hitmarker(Xcord,Ycord):
+def hitmarker(Xcord,Ycord,):
     if l[Ycord][Xcord] == "U":
         print("You hit a ship!")
         l[Ycord][Xcord] = "x"
@@ -20,16 +22,17 @@ def hitmarker(Xcord,Ycord):
         l[Ycord][Xcord] = "O"
 
 #The function that takes player input for striking and ship placement, verifies the input and calls the appropriate fucntion to make markers
-def userinput(PlayerGuess,i,opt):
+def userinput(PlayerGuess,i,opt,way):
     if PlayerGuess.find(".") and PlayerGuess[0:PlayerGuess.find(".")].isnumeric() and int(PlayerGuess[0:PlayerGuess.find(".")]) < 11 and int(PlayerGuess[PlayerGuess.find(".") + 1:len(PlayerGuess)]) < 11 and PlayerGuess[PlayerGuess.find(".") + 1:len(PlayerGuess)].isnumeric() and int(PlayerGuess[0:PlayerGuess.find(".")]) > 0 and int(PlayerGuess[PlayerGuess.find(".") + 1:len(PlayerGuess)]) > 0:
         x = int(PlayerGuess[0:PlayerGuess.find(".")]) - 1
         y = int(PlayerGuess[PlayerGuess.find(".") + 1:len(PlayerGuess)]) - 1
         x = x + i
         if opt == "ship":
-            shipMarker(x,y)
+            shipMarker(x,y,way)
             return True
         elif opt == "strike":
-            hitmarker(x,y)
+            way == None
+            hitmarker(x,y,way)
             return True
     else:
         print("Please enter in correct format")
@@ -70,10 +73,10 @@ BattleShip, Select An Option:
         strikeMenu()
         print("DONE STRIKING!")
 
-def shipplacement(ship,placement):
+def shipplacement(ship,placement,way):
     i = 0
     while i < len(shiplist[ship]):
-        userinput(placement,i,"ship")
+        userinput(placement,i,"ship",way)
         i += 1
     BoardGUI("Update")
 
@@ -105,21 +108,28 @@ Select a ship to place:
 """)
     options = input()
     BoardGUI("Update")
-    placement = input("Where would you like to place the ship? From right to left")
+    print("""
+Which way would you like to place the ship?
+    Horizonatally (1)
+    Vertically    (2)
+    """)
+    way = input()
+
+    placement = input("Where would you like to place the ship?")
     if options == "1":
-        shipplacement("Destroyer",placement)
+        shipplacement("Destroyer",placement,way)
         Menu()
     if options == "2":
-        shipplacement("Submarine",placement)
+        shipplacement("Submarine",placement,way)
         Menu()
     if options == "3":
-        shipplacement("Cruiser",placement)
+        shipplacement("Cruiser",placement,way)
         Menu()
     if options == "4":
-        shipplacement("Battleship",placement)
+        shipplacement("Battleship",placement,way)
         Menu()
     if options == "5":
-        shipplacement("AirCraftCarrier",placement)
+        shipplacement("AirCraftCarrier",placement,way)
         Menu()
 BoardGUI() #generate
 Menu()
