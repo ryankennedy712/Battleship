@@ -8,10 +8,8 @@ shiplist = {"Destroyer":["U","U"],"Submarine":["U","U","U"],"Cruiser":["U","U","
 
 #The function that records where ships are placed, will be updated later
 def shipMarker(Xcord,Ycord,way):
-    if way == "1":
-        l[Ycord][Xcord] = "U"
-    else:
-        l[Xcord][Ycord] = "U"
+    l[Ycord][Xcord] = "U"
+    
 #The Function that records where strike have been placed
 def hitmarker(Xcord,Ycord,):
     if l[Ycord][Xcord] == "U":
@@ -26,7 +24,11 @@ def userinput(PlayerGuess,i,opt,way):
     if PlayerGuess.find(".") and PlayerGuess[0:PlayerGuess.find(".")].isnumeric() and int(PlayerGuess[0:PlayerGuess.find(".")]) < 11 and int(PlayerGuess[PlayerGuess.find(".") + 1:len(PlayerGuess)]) < 11 and PlayerGuess[PlayerGuess.find(".") + 1:len(PlayerGuess)].isnumeric() and int(PlayerGuess[0:PlayerGuess.find(".")]) > 0 and int(PlayerGuess[PlayerGuess.find(".") + 1:len(PlayerGuess)]) > 0:
         x = int(PlayerGuess[0:PlayerGuess.find(".")]) - 1
         y = int(PlayerGuess[PlayerGuess.find(".") + 1:len(PlayerGuess)]) - 1
-        x = x + i
+        #Enter error checking for out of bounds boats.
+        if way == "1":
+            x = x + i
+        else:
+            y = y + i
         if opt == "ship":
             shipMarker(x,y,way)
             return True
